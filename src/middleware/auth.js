@@ -1,14 +1,15 @@
 const User = require("../models/user.model")
 
-const checkEmail = (req, res) => {
+const checkEmail = (req, res, next) => {
     const {email} = req.body
-    User.findByEmail(email, (_, data) => {
+    User.findByEmail(email, (_ , data) => {
         if(data) {
             res.status(400).send({
                 status: 'error',
                 message: `A user with this email ${email} already exits`
             })
         }
+        next()
     })
 }
 const asyncHandler = (cb) => async(req, res, next) => {
