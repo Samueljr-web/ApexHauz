@@ -8,6 +8,7 @@ const checkEmail = (req, res, next) => {
                 status: 'error',
                 message: `A user with this email ${email} already exits`
             })
+           return;
         }
         next()
     })
