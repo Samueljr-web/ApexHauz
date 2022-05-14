@@ -4,7 +4,8 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "password",
-  database: "db_name",
+  database: "ApexHauz_API",
+  port: '/var/run/mysqld/mysqld.sock'
 });
 
 connection.connect(function (err) {
