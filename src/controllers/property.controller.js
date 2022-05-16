@@ -51,3 +51,22 @@ exports.findOne = (req, res) => {
         }
     })
 }
+
+exports.findType = (req, res) => {
+    Property.findByType(String(req.params.type), (err, data) => {
+        if (err) {
+            if (err.kind === "not found") {
+                res.status(404).send({
+                    message: `Property with type ${req.params.type} does not exist.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving property of type " + req.params.type
+                });
+            }
+        } else {
+            res.status(200).send({status: "success", 
+            data: data})
+        }
+    })
+}
