@@ -48,6 +48,24 @@ class Property {
             result(null, res);
         })
     }
+
+    static findById(id, result) {
+        db.query(`SELECT * FROM properties WHERE id = ?`, [id], (err, res) => {
+            if (err) {
+                console.log("Error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if(res.length) {
+                console.log("found property: ", res[0]);
+                result(null, res[0]);
+                return;
+            }
+
+            result({ kind: "not found"}, null);
+        })
+    }
 }
 
 module.exports = Property;

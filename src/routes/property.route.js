@@ -7,4 +7,7 @@ router.route('/properties')
 router.route('/properties')
     .post(propertyController.create);
 
+router.route('/properties/:id')
+    .get(propertyController.findOne);
+
 module.exports = router;
