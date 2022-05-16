@@ -2,7 +2,7 @@ const { createNewUser, findUserByEmail } = require("../database/queries");
 const db = require("../config/db.config");
 
 
-// Sign up auser
+// Sign up a user
 class User {
   constructor(id,email, first_name,last_name,password, phone,address,is_admin){
     this.id = id;
