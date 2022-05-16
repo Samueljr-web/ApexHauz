@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const propertyController = require("../controllers/property.controller")
 
-module.exports = app => {
-    router.get("/", propertyController.findAll)
+/*router.route('/properties')
+    .get(propertyController.findAll);*/
 
-    router.post("/", propertyController.create)
+router.route('/properties')
+    .post(propertyController.create);
 
-    app.use('/api/properties', router);
-}
+module.exports = router;
