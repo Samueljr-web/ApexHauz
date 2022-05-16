@@ -37,7 +37,7 @@ class Property {
         
     }
 
-    /*static getAll(result) {
+    static getAll(result) {
         db.query(`SELECT * FROM properties`, (err, res) => {
             if (err) {
                 console.log("Error: ", err);
@@ -47,7 +47,7 @@ class Property {
             console.log("Properties: ", res);
             result(null, res);
         })
-    }*/
+    }
 }
 
 module.exports = Property;

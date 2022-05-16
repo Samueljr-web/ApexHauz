@@ -21,7 +21,7 @@ exports.create = (req, res) => {
     })
 }
 
-/*exports.findAll = (req, res) => {
+exports.findAll = (req, res) => {
     Property.getAll((err, data) => {
         if (err) {
             res.status(500).send({
@@ -31,4 +31,4 @@ exports.create = (req, res) => {
         res.status(200).send({status: "success", 
             data: data})
     })
-}*/
+}
