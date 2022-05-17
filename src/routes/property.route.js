@@ -10,6 +10,11 @@ router.route('/properties')
 router.route('/properties/:id')
     .get(propertyController.findOne);
 
-router.route('/properties/find/:type')
+router.route('/properties/:id')
+    .delete(propertyController.deleteProp);
+
+router.route('/properties/search?type=:type')
     .get(propertyController.findType);
+
+
 module.exports = router;
