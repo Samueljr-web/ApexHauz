@@ -100,6 +100,22 @@ class Property {
             result(null,res);
         })
     }
+
+    static markSold(id, result) {
+        db.query(`UPDATE properties SET status = 'sold' WHERE id = ?` , [id], (err, res) => {
+            if (err) {
+                console.log("Error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if(res.affectedRows == 0) {
+                result({kind: "not found"}, null);
+                return;
+            }
+            result(null,res);
+        })
+    }
 }
 
 module.exports = Property;
