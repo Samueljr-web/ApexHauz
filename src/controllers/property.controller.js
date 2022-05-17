@@ -53,7 +53,7 @@ exports.findOne = (req, res) => {
 }
 
 exports.findType = (req, res) => {
-    Property.findByType(String(req.params.type), (err, data) => {
+    Property.findByType(req.params.type, (err, data) => {
         if (err) {
             if (err.kind === "not found") {
                 res.status(404).send({
@@ -68,5 +68,24 @@ exports.findType = (req, res) => {
             res.status(200).send({status: "success", 
             data: data})
         }
+    })
+}
+
+exports.deleteProp = (req, res) => {
+    Property.delete(Number(req.params.id), (err, data) => {
+        if (err) {
+            if (err.kind === "not found") {
+                res.status(404).send({
+                    message: `Property with id ${req.params.id} does not exist.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Could not delete property of id " + req.params.id
+                });
+            }
+        } else {
+            res.status(200).send({status: "success", 
+            message: "Property was deleted successfully!",})
+        };
     })
 }
