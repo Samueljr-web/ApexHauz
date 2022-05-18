@@ -10,6 +10,9 @@ router.route('/properties')
 router.route('/properties/find/:type')
     .get(propertyController.findType);
 
+router.route('/properties/:id')
+    .patch(propertyController.update);
+
 router.route('/properties/:id/sold')
     .patch(propertyController.markAsSold);
 
