@@ -101,6 +101,44 @@ class Property {
         })
     }
 
+    static updateById(id, newProperty,result) {
+        db.query(`UPDATE properties SET id = ?,
+            owner = ?,
+            status = ?,
+            price = ?,
+            state = ?,
+            city = ?,
+            address = ?,
+            type = ?,
+            image_url = ?,
+            created_on = ?  WHERE id = ?`, [
+                newProperty.id, 
+                newProperty.owner,
+                newProperty.status, 
+                newProperty.price,
+                newProperty.state,
+                newProperty.city,
+                newProperty.address,
+                newProperty.type,
+                newProperty.image_url,
+                newProperty.created_on,
+                newProperty.id, 
+            ], (err, res) => {
+            if (err) {
+                console.log("Error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if(res.affectedRows == 0) {
+                result({kind: "not found"}, null);
+                return;
+            }
+            console.log("updated property: ", {...newProperty})
+            result(null,{...newProperty});
+        })
+    }
+
     static markSold(id, result) {
         db.query(`UPDATE properties SET status = 'sold' WHERE id = ?` , [id], (err, res) => {
             if (err) {

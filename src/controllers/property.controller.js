@@ -109,3 +109,29 @@ exports.markAsSold = (req, res) => {
         };
     })
 }
+
+exports.update = (req,res) => {
+    if(!req.body) {
+        res.status(500).send({
+            message: "Content cannot be blank!"
+        });
+    }
+    const {id, owner, status, price, state, city, address, type, image_url, created_on} = req.body;
+    Property.updateById(Number(req.params.id), 
+        new Property(id, owner, status, price, state, city, address, type, image_url, created_on), 
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not found") {
+                    res.status(404).send({
+                        message: `Property with id ${req.params.id} does not exist.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Could not update property of id " + req.params.id
+                    });
+                }
+        
+            } else res.send(data);
+        }
+    )
+}   
