@@ -3,9 +3,11 @@ const mysql = require("mysql");
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "password",
+  password: "",
+  // password: "password",
   database: "ApexHauz_API",
-  port: '/var/run/mysqld/mysqld.sock'
+  port: 3306,
+  // port: '/var/run/mysqld/mysqld.sock'
 });
 
 connection.connect(function (err) {
