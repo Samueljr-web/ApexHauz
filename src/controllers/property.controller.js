@@ -53,7 +53,7 @@ exports.findOne = (req, res) => {
 }
 
 exports.findType = (req, res) => {
-    Property.findByType(req.params.type, (err, data) => {
+    Property.findByType(String(req.params.type), (err, data) => {
         if (err) {
             if (err.kind === "not found") {
                 res.status(404).send({
@@ -86,6 +86,26 @@ exports.deleteProp = (req, res) => {
         } else {
             res.status(200).send({status: "success", 
             message: "Property was deleted successfully!",})
+        };
+    })
+}
+
+exports.markAsSold = (req, res) => {
+    Property.markSold(Number(req.params.id), (err, data) => {
+        if (err) {
+            if (err.kind === "not found") {
+                res.status(404).send({
+                    message: `Property with id ${req.params.id} does not exist.`
+                });
+            } else {
+                res.status(500).send({
+                    message: `Property with id ${req.params.id} could not be mared as sold.`
+                });
+            }
+        } else {
+            res.status(200).send({status: "success", 
+            message: "Property was marked succesfully!",
+            data:data})
         };
     })
 }

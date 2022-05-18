@@ -7,14 +7,16 @@ router.route('/properties')
 router.route('/properties')
     .post(propertyController.create);
 
+router.route('/properties/find/:type')
+    .get(propertyController.findType);
+
+router.route('/properties/:id/sold')
+    .patch(propertyController.markAsSold);
+
 router.route('/properties/:id')
     .get(propertyController.findOne);
 
 router.route('/properties/:id')
     .delete(propertyController.deleteProp);
-
-router.route('/properties/search?type=:type')
-    .get(propertyController.findType);
-
 
 module.exports = router;
