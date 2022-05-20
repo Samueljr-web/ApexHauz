@@ -1,4 +1,5 @@
 const Property = require("../models/property.model");
+const URL = require('url').URL;
 
 exports.create = (req, res) => {
     if (!req.body) {
@@ -53,15 +54,18 @@ exports.findOne = (req, res) => {
 }
 
 exports.findType = (req, res) => {
-    Property.findByType(String(req.params.type), (err, data) => {
+    const url = require('url')
+    const queryObject = url.parse(req.url, true).query;
+    const type = queryObject.type;
+    Property.findByType(type, (err, data) => {
         if (err) {
             if (err.kind === "not found") {
                 res.status(404).send({
-                    message: `Property with type ${req.params.type} does not exist.`
+                    message: `Property with type ${req.query.type} does not exist.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving property of type " + req.params.type
+                    message: "Error retrieving property of type " + req.query.type
                 });
             }
         } else {
