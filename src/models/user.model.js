@@ -90,9 +90,9 @@ class User {
     });
   }
 
-  static updatePassword({ id, newEncryptedPassword }, result) {
+  static updatePassword({ email, newEncryptedPassword }, result) {
     db.query(
-      `UPDATE users SET password = '${newEncryptedPassword}' WHERE id = '${id}'`,
+      `UPDATE users SET password = '${newEncryptedPassword}' WHERE email = '${email}'`,
       (err, res) => {
         if (err) {
           console.log("error: ", err);

@@ -46,7 +46,7 @@ class Property {
           return;
         }
         // console.log("Created Property: ", {...newProperty});
-        result(null, { id: res.insertId, ...newProperty });
+        result(null, { ...newProperty });
       }
     );
   }
@@ -117,18 +117,8 @@ class Property {
 
   static updateById(id, newProperty, result) {
     db.query(
-      `UPDATE properties SET id = ?,
-            owner = ?,
-            status = ?,
-            price = ?,
-            state = ?,
-            city = ?,
-            address = ?,
-            type = ?,
-            image_url = ?,
-            created_on = ?  WHERE id = ?`,
+      `UPDATE properties SET owner = ?,status = ?,price = ?,state = ?,city = ?,address = ?,type = ?,image_url = ? WHERE id = ?`,
       [
-        newProperty.id,
         newProperty.owner,
         newProperty.status,
         newProperty.price,
@@ -137,7 +127,6 @@ class Property {
         newProperty.address,
         newProperty.type,
         newProperty.image_url,
-        newProperty.created_on,
         newProperty.id,
       ],
       (err, res) => {
@@ -151,7 +140,7 @@ class Property {
           result({ kind: "not found" }, null);
           return;
         }
-        console.log("updated property: ", { ...newProperty });
+        // console.log("updated property: ", { ...newProperty });
         result(null, { ...newProperty });
       }
     );

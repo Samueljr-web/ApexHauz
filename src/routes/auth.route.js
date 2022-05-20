@@ -8,6 +8,8 @@ router
 
 router.route("/signin").post(asyncHandler(authController.signin));
 
+router.route("/resetpassword").post(asyncHandler(authController.resetPassword));
+
 router
   .route("/updatepassword")
   .post(asyncHandler(authController.updatePassword));

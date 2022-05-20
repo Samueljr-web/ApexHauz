@@ -3,10 +3,11 @@ const {
   hash: hashPassword,
   compare: comparePassword,
   generate: generateToken,
+  decode: decodeToken,
 } = require("../utils/auth.utils");
 
 // Signup and Save a new User
-exports.signup = (req, res) => {
+const signup = (req, res) => {
   const {
     id,
     email,
@@ -52,7 +53,7 @@ exports.signup = (req, res) => {
 };
 
 // signin a user
-exports.signin = (req, res) => {
+const signin = (req, res) => {
   const { email, password } = req.body;
   User.findByEmail(email.trim(), (err, data) => {
     if (err) {
@@ -91,8 +92,29 @@ exports.signin = (req, res) => {
   });
 };
 
-exports.updatePassword = ({ body: { id, oldPassword, newPassword } }, res) => {
-  User.findById(id, (err, data) => {
+const resetPassword = ({ body: { email } }, res) => {
+  User.findByEmail(email, (_, data) => {
+    const token = generateToken(email, { expiresIn: "1hr" });
+    if (data) {
+      res.status(200).send({
+        status: "success",
+        data: {
+          text: "This generated token will expire in 1hr.",
+          token,
+        },
+      });
+      return;
+    }
+    res.status(400).send({
+      status: "error",
+      message: "This email is not found",
+    });
+  });
+};
+
+const updatePassword = ({ body: { token, password } }, res) => {
+  const email = decodeToken(token).id;
+  User.findByEmail(email, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -107,9 +129,9 @@ exports.updatePassword = ({ body: { id, oldPassword, newPassword } }, res) => {
       });
       return;
     }
-    if (data && comparePassword(oldPassword.trim(), data.password)) {
-      const newEncryptedPassword = hashPassword(newPassword.trim());
-      User.updatePassword({ id, newEncryptedPassword }, (err, data) => {
+    if (data) {
+      const newEncryptedPassword = hashPassword(password.trim());
+      User.updatePassword({ email, newEncryptedPassword }, (err, data) => {
         if (err)
           res.status(500).send({
             status: "error",
@@ -129,9 +151,17 @@ exports.updatePassword = ({ body: { id, oldPassword, newPassword } }, res) => {
       });
       return;
     }
-    res.status(401).send({
+    res.status(500).send({
       status: "error",
-      message: "Incorrect password",
+      message: err.message || "Some error occurred while finding user.",
     });
+    return;
   });
+};
+
+module.exports = {
+  signup,
+  signin,
+  resetPassword,
+  updatePassword,
 };
