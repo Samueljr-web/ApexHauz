@@ -8,44 +8,33 @@ const {
 
 // Signup and Save a new User
 const signup = (req, res) => {
-  const {
-    id,
-    email,
-    first_name,
-    last_name,
-    password,
-    phone,
-    address,
-    is_admin,
-  } = req.body;
+  const { email, first_name, last_name, password, phone, address } = req.body;
   const encryptedPassword = hashPassword(password.trim());
 
   const user = new User(
-    id,
+    "",
     email.trim(),
     first_name.trim(),
     last_name.trim(),
     encryptedPassword,
     phone,
-    address.trim(),
-    is_admin,
-    encryptedPassword
+    address.trim()
   );
 
   // Save User in the database
   User.create(user, (err, data) => {
     if (err)
-      res.status(500).send({
+      res.status(500).json({
         status: "error",
         message: err.message || "Some error occurred while creating the User.",
       });
     else {
       const token = generateToken(data.id);
-      res.status(201).send({
+      res.status(201).json({
         status: "success",
         data: {
           token,
-          data,
+          ...data,
         },
       });
     }
@@ -58,13 +47,13 @@ const signin = (req, res) => {
   User.findByEmail(email.trim(), (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
+        res.status(404).json({
           status: "error",
           message: `A user with this email ${email} does not exist`,
         });
         return;
       }
-      res.status(500).send({
+      res.status(500).json({
         status: "error",
         message: err.message || "Some error occurred while retrieving users.",
       });
@@ -73,7 +62,7 @@ const signin = (req, res) => {
     if (data) {
       if (comparePassword(password.trim(), data.password)) {
         const token = generateToken(data.id);
-        res.status(200).send({
+        res.status(200).json({
           status: "success",
           data: {
             token,
@@ -84,7 +73,7 @@ const signin = (req, res) => {
         });
         return;
       }
-      res.status(401).send({
+      res.status(401).json({
         status: "error",
         message: "Incorrect password",
       });
@@ -96,7 +85,7 @@ const resetPassword = ({ body: { email } }, res) => {
   User.findByEmail(email, (_, data) => {
     const token = generateToken(email, { expiresIn: "1hr" });
     if (data) {
-      res.status(200).send({
+      res.status(200).json({
         status: "success",
         data: {
           text: "This generated token will expire in 1hr.",
@@ -105,7 +94,7 @@ const resetPassword = ({ body: { email } }, res) => {
       });
       return;
     }
-    res.status(400).send({
+    res.status(400).json({
       status: "error",
       message: "This email is not found",
     });
@@ -117,13 +106,13 @@ const updatePassword = ({ body: { token, password } }, res) => {
   User.findByEmail(email, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
+        res.status(404).json({
           status: "error",
-          message: `A user with this id ${id} does not exist`,
+          message: `A user with this email ${email} does not exist`,
         });
         return;
       }
-      res.status(500).send({
+      res.status(500).json({
         status: "error",
         message: err.message || "Some error occurred while finding user.",
       });
@@ -133,25 +122,25 @@ const updatePassword = ({ body: { token, password } }, res) => {
       const newEncryptedPassword = hashPassword(password.trim());
       User.updatePassword({ email, newEncryptedPassword }, (err, data) => {
         if (err)
-          res.status(500).send({
+          res.status(500).json({
             status: "error",
             message:
               err.message || "Some error occurred while updating password.",
           });
         if (data.affectedRows)
-          res.status(200).send({
+          res.status(200).json({
             status: "success",
             message: "Successfully changed password",
           });
         else
-          res.status(201).send({
+          res.status(201).json({
             status: "success",
             message: "No data changed",
           });
       });
       return;
     }
-    res.status(500).send({
+    res.status(500).json({
       status: "error",
       message: err.message || "Some error occurred while finding user.",
     });

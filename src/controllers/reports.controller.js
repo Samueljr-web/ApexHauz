@@ -9,8 +9,8 @@ const create = (req, res) => {
     return;
   }
 
-  const { property_id, created_on, reason, description } = req.body;
-  const report = new Report(property_id, created_on, reason, description);
+  const { property_id, reason, description } = req.body;
+  const report = new Report(property_id, reason, description);
 
   Report.create(report, (err, data) => {
     if (err) {
@@ -19,8 +19,9 @@ const create = (req, res) => {
         message:
           err.message || "Some error occurred while creating the report.",
       });
+      return;
     }
-    res.status(201).json({ status: "success", data });
+    res.status(200).json({ status: "success", data });
   });
 };
 

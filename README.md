@@ -29,6 +29,46 @@ ApexHauz is a platform where people can create and/or search properties for sale
 - Run _"npm install"_ and _"npm start"_...
 - Reconfigure the _".env"_ file if neccessary...
 
+## Testing the API's
+
+**Note: ** For the post request the list of data below are the required data and needs to be passed in json format.
+
+- POST /api/v1/auth/signup: Create user account
+  - email\*
+  - first_name\*
+  - last_name\*
+  - password\*
+  - phone\*
+  - address\*
+- POST /api/v1/auth/signin: Login a user
+  - email\*
+  - password\*
+- POST /api/v1/auth/resetpassword: Reset user password
+  - email\*
+- POST /api/v1/auth/updatepassword: Update password
+  - token\*
+  - password\*
+- POST /api/v1/properties: Create a property advert
+  - owner(owner's id)\*
+  - status
+  - price\*
+  - state\*
+  - city\*
+  - address\*
+  - type\*
+  - image_url\*
+- PATCH /api/v1/properties/<:property-id>: Update property data
+- PATCH /api/v1/properties/<:property-id>/sold: Mark a property as sold
+- DELETE /api/v1/properties/<:property-id>: Delete a property advert
+- GET /api/v1/properties/<:property-id>: Get a specific property by ID
+- GET /api/v1/properties: Get all properties
+- GET /api/v1/properties/search?type=propertyType: Get all properties with a specific type
+- GET /api/v1/reports: Get all reports
+- POST /api/v1/reports: Report property
+  - property_id\*
+  - reason\*
+  - description\*
+
 ## Contributors
 
 Thanks to these people for contributing to the maintenance of this tutorial.

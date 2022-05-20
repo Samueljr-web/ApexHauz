@@ -1,22 +1,8 @@
-const {
-  createNewUser,
-  findUserByEmail,
-  findUserById,
-} = require("../database/queries");
 const db = require("../config/db.config");
 
 // Sign up a user
 class User {
-  constructor(
-    id,
-    email,
-    first_name,
-    last_name,
-    password,
-    phone,
-    address,
-    is_admin
-  ) {
+  constructor(id, email, first_name, last_name, password, phone, address) {
     this.id = id;
     this.email = email;
     this.first_name = first_name;
@@ -24,20 +10,18 @@ class User {
     this.password = password;
     this.phone = phone;
     this.address = address;
-    this.is_admin = is_admin;
   }
+
   static create(newUser, result) {
     db.query(
-      createNewUser,
+      `INSERT INTO users (email, first_name, last_name, password, phone, address) VALUES (?, ?, ?, ?, ?, ?)`,
       [
-        newUser.id,
         newUser.email,
         newUser.first_name,
         newUser.last_name,
         newUser.password,
         newUser.phone,
         newUser.address,
-        newUser.is_admin,
       ],
       (err, res) => {
         if (err) {
@@ -46,14 +30,13 @@ class User {
           return;
         }
 
-        // console.log("Created User: ", { ...newUser });
-        result(null, { id: res.insertId, ...newUser });
+        result(null, { ...newUser, id: res.insertId });
       }
     );
   }
 
   static findByEmail(email, result) {
-    db.query(findUserByEmail, email, (err, res) => {
+    db.query("SELECT * FROM users WHERE email = ?", email, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -61,18 +44,16 @@ class User {
       }
 
       if (res.length) {
-        // console.log("found email: ", res[0]);
         result(null, res[0]);
         return;
       }
 
-      // not found
       result({ kind: "not_found" }, null);
     });
   }
 
   static findById(id, result) {
-    db.query(findUserById, id, (err, res) => {
+    db.query("SELECT * FROM users WHERE id = ?", id, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

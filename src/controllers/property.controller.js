@@ -10,7 +10,6 @@ const create = (req, res) => {
   }
 
   const {
-    id,
     owner,
     status,
     price,
@@ -19,19 +18,17 @@ const create = (req, res) => {
     address,
     type,
     image_url,
-    created_on,
   } = req.body;
   const property = new Property(
-    id,
+    "",
     owner,
-    status,
+    status && status.length >= 1 ? status : "default",
     price,
     state,
     city,
     address,
     type,
-    image_url,
-    created_on
+    image_url
   );
 
   Property.create(property, (err, data) => {
@@ -43,7 +40,7 @@ const create = (req, res) => {
       });
       return;
     }
-    res.status(201).json({ status: "success", data });
+    res.status(200).json({ status: "success", data });
   });
 };
 

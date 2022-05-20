@@ -1,29 +1,23 @@
 const db = require("../config/db.config");
 
 class Reports {
-  constructor(property_id, created_on, reason, description) {
+  constructor(property_id, reason, description) {
     this.property_id = property_id;
-    this.created_on = created_on;
     this.reason = reason;
     this.description = description;
   }
+
   static create(newReport, result) {
+    console.log(newReport);
     db.query(
-      `INSERT INTO reports VALUES(?, ?,?,?,?)`,
-      [
-        ,
-        newReport.property_id,
-        newReport.created_on,
-        newReport.reason,
-        newReport.description,
-      ],
+      `INSERT INTO reports (property_id, reason, description) VALUES(?,?,?)`,
+      [newReport.property_id, newReport.reason, newReport.description],
       (err, res) => {
         if (err) {
           console.log("error: ", err);
           result(err, null);
           return;
         }
-        // console.log("Created Report: ", {...newReport});
         result(null, { id: res.insertId, ...newReport });
       }
     );
@@ -36,7 +30,6 @@ class Reports {
         result(null, err);
         return;
       }
-      // console.log("Reports: ", res);
       result(null, res);
     });
   }
