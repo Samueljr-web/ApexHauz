@@ -7,8 +7,11 @@ router.route('/properties')
 router.route('/properties')
     .post(propertyController.create);
 
-router.route('/properties/find/:type')
+router.route('/properties/search')
     .get(propertyController.findType);
+
+router.route('/properties/:id')
+    .get(propertyController.findOne);
 
 router.route('/properties/:id')
     .patch(propertyController.update);
@@ -16,8 +19,6 @@ router.route('/properties/:id')
 router.route('/properties/:id/sold')
     .patch(propertyController.markAsSold);
 
-router.route('/properties/:id')
-    .get(propertyController.findOne);
 
 router.route('/properties/:id')
     .delete(propertyController.deleteProp);
