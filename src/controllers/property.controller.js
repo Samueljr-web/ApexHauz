@@ -1,4 +1,5 @@
 const Property = require("../models/property.model");
+const URL = require("url").URL;
 
 const create = (req, res) => {
   if (!req.body) {
