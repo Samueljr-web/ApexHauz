@@ -1,18 +1,7 @@
 const db = require("../config/db.config");
 
 class Property {
-  constructor(
-    id,
-    owner,
-    status,
-    price,
-    state,
-    city,
-    address,
-    type,
-    image_url,
-    created_on
-  ) {
+  constructor(id, owner, status, price, state, city, address, type, image_url) {
     this.id = id;
     this.owner = owner;
     this.type = type;
@@ -22,13 +11,11 @@ class Property {
     this.city = city;
     this.address = address;
     this.image_url = image_url;
-    this.created_on = created_on;
   }
   static create(newProperty, result) {
     db.query(
-      `INSERT INTO properties VALUES(?,?,?,?,?,?,?,?,?,?)`,
+      `INSERT INTO properties (owner, status, price, state, city, address, type, image_url) VALUES(?,?,?,?,?,?,?,?)`,
       [
-        newProperty.id,
         newProperty.owner,
         newProperty.status,
         newProperty.price,
@@ -37,7 +24,6 @@ class Property {
         newProperty.address,
         newProperty.type,
         newProperty.image_url,
-        newProperty.created_on,
       ],
       (err, res) => {
         if (err) {
@@ -45,8 +31,8 @@ class Property {
           result(err, null);
           return;
         }
-        // console.log("Created Property: ", {...newProperty});
-        result(null, { ...newProperty });
+
+        result(null, { ...newProperty, id: res.insertId });
       }
     );
   }
@@ -58,7 +44,7 @@ class Property {
         result(null, err);
         return;
       }
-      // console.log("Properties: ", res);
+
       result(null, res);
     });
   }
@@ -72,7 +58,6 @@ class Property {
       }
 
       if (res.length) {
-        // console.log("found property: ", res[0]);
         result(null, res[0]);
         return;
       }
@@ -90,7 +75,6 @@ class Property {
       }
 
       if (res.length) {
-        // console.log("found property: ", res);
         result(null, res);
         return;
       }
@@ -140,7 +124,6 @@ class Property {
           result({ kind: "not found" }, null);
           return;
         }
-        // console.log("updated property: ", { ...newProperty });
         result(null, { ...newProperty });
       }
     );

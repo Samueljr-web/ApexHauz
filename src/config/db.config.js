@@ -29,17 +29,17 @@ connection.connect(function (err) {
     {
       name: "users",
       query:
-        "id int AUTO_INCREMENT, email varchar(100), first_name varchar(100), last_name varchar(100), password varchar(100), phone int, address varchar(100), is_admin boolean, PRIMARY KEY(id)",
+        "id int AUTO_INCREMENT, email varchar(100), first_name varchar(100), last_name varchar(100), password varchar(100), phone int, address varchar(100), is_admin boolean DEFAULT false, created_on timestamp DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(id)",
     },
     {
       name: "properties",
       query:
-        "id int AUTO_INCREMENT, owner int, status varchar(100) DEFAULT 'available', price float, state varchar(100), city varchar(100), address varchar(100), type varchar(100), image_url varchar(100), created_on datetime NOT NULL, PRIMARY KEY(id), FOREIGN KEY(owner) REFERENCES users(id)",
+        "id int AUTO_INCREMENT, owner int, status varchar(100) DEFAULT 'available', price float, state varchar(100), city varchar(100), address varchar(100), type varchar(100), image_url varchar(100),  created_on timestamp DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(id), FOREIGN KEY(owner) REFERENCES users(id)",
     },
     {
       name: "reports",
       query:
-        "id int AUTO_INCREMENT, property_id int, created_on datetime, reason varchar(255), description varchar(355), PRIMARY KEY(id), FOREIGN KEY(property_id) REFERENCES properties(id)",
+        "id int AUTO_INCREMENT, property_id int,  created_on timestamp DEFAULT CURRENT_TIMESTAMP, reason varchar(255), description varchar(355), PRIMARY KEY(id), FOREIGN KEY(property_id) REFERENCES properties(id)",
     },
   ]);
   console.log("Database connected successfully");
