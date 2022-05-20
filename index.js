@@ -15,7 +15,8 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/v1", authRoute, propRoute, reportsRoute);
+app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/", propRoute, reportsRoute);
 
 app.get("/", (req, res) => {
   res.status(200).send("ApexHauz Rest Api ready to use...");
