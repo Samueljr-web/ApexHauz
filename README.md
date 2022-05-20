@@ -10,7 +10,7 @@ ApexHauz is a platform where people can create and/or search properties for sale
 - User can sign in
 - User can post a property advert
 - User can update the details of a property advert
-- User can mark  his/her posted advert as sold
+- User can mark his/her posted advert as sold
 - User can delete his/her property advert
 - User can view all property adverts
 - User can view all properties of a specific type - 2 bedrooms, 3 bedrooms, mini flat etc
@@ -25,7 +25,9 @@ ApexHauz is a platform where people can create and/or search properties for sale
 ## How to run the project
 
 - Clone or download this repository.
+- Create a database called **"ApexHauz_API"** on your local machine.
 - Run _"npm install"_ and _"npm start"_...
+- Reconfigure the _".env"_ file if neccessary...
 
 ## Contributors
 
@@ -46,7 +48,5 @@ Thanks to these people for contributing to the maintenance of this tutorial.
 <a href="https://github.com/Rahdeg" target="_blank" title="Rahdeg">
   <img src="https://github.com/Rahdeg.png?size=40" height="40" width="40" alt="Rahdeg" />
 </a>
-
-
 
 This list is maintained manually—for now—and includes (a) each person who submitted a pull request that was eventually merged into `main`, and (b) each person who contributed in a different way (e.g. providing constructive feedback) and who approved of me including them in this list.

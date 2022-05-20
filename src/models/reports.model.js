@@ -1,8 +1,7 @@
 const db = require("../config/db.config");
 
 class Reports {
-  constructor(id, property_id, created_on, reason, description) {
-    this.id = id;
+  constructor(property_id, created_on, reason, description) {
     this.property_id = property_id;
     this.created_on = created_on;
     this.reason = reason;
@@ -10,9 +9,9 @@ class Reports {
   }
   static create(newReport, result) {
     db.query(
-      `INSERT INTO reports VALUES(?,?,?,?,?)`,
+      `INSERT INTO reports VALUES(?, ?,?,?,?)`,
       [
-        newReport.id,
+        ,
         newReport.property_id,
         newReport.created_on,
         newReport.reason,

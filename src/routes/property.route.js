@@ -1,26 +1,19 @@
 const router = require("express").Router();
-const propertyController = require("../controllers/property.controller")
+const propertyController = require("../controllers/property.controller");
 
-router.route('/properties')
-    .get(propertyController.findAll);
+router
+  .route("/properties")
+  .get(propertyController.findAll)
+  .post(propertyController.create);
 
-router.route('/properties')
-    .post(propertyController.create);
+router.route("/properties/search").get(propertyController.findType);
 
-router.route('/properties/search')
-    .get(propertyController.findType);
+router
+  .route("/properties/:id")
+  .get(propertyController.findOne)
+  .patch(propertyController.update)
+  .delete(propertyController.deleteProp);
 
-router.route('/properties/:id')
-    .get(propertyController.findOne);
-
-router.route('/properties/:id')
-    .patch(propertyController.update);
-
-router.route('/properties/:id/sold')
-    .patch(propertyController.markAsSold);
-
-
-router.route('/properties/:id')
-    .delete(propertyController.deleteProp);
+router.route("/properties/:id/sold").patch(propertyController.markAsSold);
 
 module.exports = router;
